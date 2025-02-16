@@ -33,7 +33,7 @@ public class Update extends HttpServlet {
         Map<String, String[]> parametros = request.getParameterMap();
         Boolean error = false;
         Ciclo ciclo = new Ciclo();
-        Modulo modulo = new Modulo();
+        List<Modulo> modulos = new ArrayList<>();
         if (request.getParameter("opcion").equals("verUpdate")){
             //Significa que el usuario ha seleccionado un ciclo para actualizar
             ciclo = (Ciclo) gdao.getById(Integer.parseInt(request.getParameter("ciclo")),ciclo.getClass());
@@ -42,11 +42,26 @@ public class Update extends HttpServlet {
         }else if (request.getParameter("opcion").equals("doUpdate")){
             //Significa que el usuario ha enviado el formulario de actualización
             List<String> opcionales = new ArrayList<>();
+            opcionales.add("modulo");
             error = Utils.validarParameters(parametros,opcionales);
             if (!error) {
                 Ciclo cicloSesion = (Ciclo) sesion.getAttribute("ciclo");
                 try{
                     BeanUtils.populate(ciclo, parametros);
+                    ciclo.setIdCiclo(cicloSesion.getIdCiclo());
+                    Integer contador = 0;
+                    for (String s: request.getParameterValues("modulo")) {
+                        if (!s.isEmpty()) {
+                            Modulo modulo = new Modulo();
+                            if (cicloSesion.getModulos().size() > contador) {
+                                modulo.setIdModulo(cicloSesion.getModulos().get(contador).getIdModulo());
+                            }
+                            modulo.setDenominacion(s);
+                            modulos.add(modulo);
+                            contador++;
+                        }
+                    }
+                    ciclo.setModulos(modulos);
                 } catch (IllegalAccessException | InvocationTargetException e) {
                     throw new RuntimeException(e);
                 }

@@ -15,7 +15,7 @@
     <div class="container">
         <div class="row">
             <div class="col-12 text-center">
-                <h1 class="display-1">Formulario de Creaci&oacute;n de Puerto y Servicio</h1>
+                    <h1 class="display-1">Formulario de Creaci&oacute;n de Ciclo y sus m&oacute;dulos</h1>
             </div>
         </div>
         <div class="row">
@@ -34,7 +34,7 @@
                     <p class="h2 border-bottom border-light-subtle w-100">Datos de los módulos</p>
                     <div id="modulosContainer">
                         <div class="modulo mb-3">
-                            <label for="denominacionModulo1" class="form-label">Denominación del Módulo *</label>
+                            <label for="denominacionModulo1" class="form-label">Denominación del Módulo</label>
                             <input type="text" class="form-control" id="denominacionModulo1" name="modulo" value="${param.modulo}">
                         </div>
                     </div>

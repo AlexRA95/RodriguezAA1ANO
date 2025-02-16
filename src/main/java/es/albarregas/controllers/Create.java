@@ -34,23 +34,33 @@ public class Create extends HttpServlet {
         List<Modulo> modulos = new ArrayList<>();
 
         List<String> opcionales = new ArrayList<>();
-        opcionales.add("mdoulo");
+        opcionales.add("modulo");
         error = Utils.validarParameters(parametros,opcionales);
 
         if (!error) {
+            Boolean done = false;
             try{
                 BeanUtils.populate(ciclo, parametros);
                 for (String s: request.getParameterValues("modulo")) {
-                    Modulo modulo = new Modulo();
-                    modulo.setDenominacion(s);
-                    modulos.add(modulo);
+                    if (!s.isEmpty()) {
+                        Modulo modulo = new Modulo();
+                        modulo.setDenominacion(s);
+                        modulos.add(modulo);
+                        done = true;
+                    }
                 }
                 ciclo.setModulos(modulos);
 
             } catch (IllegalAccessException | InvocationTargetException e) {
                 throw new RuntimeException(e);
             }
-            gdao.insertOrUpdate(ciclo);
+
+            if (!done) {
+                request.setAttribute("error", "Debe introducir al menos un módulo");
+                URL = "JSP/Create/FormCreate.jsp";
+            }else {
+                gdao.insertOrUpdate(ciclo);
+            }
         }else {
             request.setAttribute("error", "Todos los campos con * son obligatorios");
             URL = "JSP/Create/FormCreate.jsp";

@@ -15,7 +15,7 @@
     <div class="container">
         <div class="row">
             <div class="col-12 text-center">
-                <h1 class="display-1">Formulario de Actualizaci&oacute;n de Servicio</h1>
+                <h1 class="display-1">Actualizar datos de Ciclo y sus m&oacute;dulos</h1>
             </div>
         </div>
         <div class="row">
@@ -26,25 +26,22 @@
                     </div>
                 </c:if>
                 <form method="post" action="${applicationScope.contexto}/Update">
-                    <p class="h2 border-bottom border-light-subtle w-100">Datos del Servicio</p>
+                    <p class="h2 border-bottom border-light-subtle w-100">Datos del ciclo</p>
                     <div class="mb-3">
-                        <label for="nombreServicio" class="form-label">Nombre del Servicio *</label>
-                        <input type="text" class="form-control" id="nombreServicio" name="nombre" value="${sessionScope.servicio.nombre}">
+                        <label for="nombreCiclo" class="form-label">Nombre del Ciclo *</label>
+                        <input type="text" class="form-control" id="nombreCiclo" name="nombre" value="${sessionScope.ciclo.nombre}">
                     </div>
-                    <div class="mb-3">
-                        <label for="pathServicio" class="form-label">Path del Servicio *</label>
-                        <input type="text" class="form-control" id="pathServicio" name="path" value="${sessionScope.servicio.path}">
+                    <p class="h2 border-bottom border-light-subtle w-100">Datos de los módulos</p>
+                    <div id="modulosContainer">
+                        <c:forEach var="modulo" items="${sessionScope.ciclo.modulos}">
+                            <div class="modulo mb-3">
+                                <label for="denominacionModulo${modulo.idModulo}" class="form-label">Denominación del M&oacute;dulo</label>
+                                <input type="text" class="form-control" id="denominacionModulo${modulo.idModulo}" name="modulo" value="${modulo.denominacion}">
+                            </div>
+                        </c:forEach>
                     </div>
-                    <p class="h2 border-bottom border-light-subtle w-100">Datos del Puerto Asociado</p>
-                    <div class="mb-3">
-                        <label for="numeroPuerto" class="form-label">Número de Puerto *</label>
-                        <input type="number" class="form-control" id="numeroPuerto" name="numero" value="${sessionScope.servicio.puerto.numero}">
-                    </div>
-                    <div class="mb-3">
-                        <label for="tipoPuerto" class="form-label">Tipo de Puerto *</label>
-                        <input type="text" class="form-control" id="tipoPuerto" name="tipo" value="${sessionScope.servicio.puerto.tipo}">
-                    </div>
-                    <button type="submit" class="btn btn-primary" name="opcion" value="doUpdate">Actualizar</button>
+                    <button type="button" class="btn btn-secondary" id="addModulo">Añadir Módulo</button>
+                    <button type="submit" name="opcion" value="doUpdate" class="btn btn-primary">Actualizar Ciclo y Módulos</button>
                 </form>
             </div>
         </div>

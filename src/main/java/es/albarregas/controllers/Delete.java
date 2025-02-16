@@ -24,20 +24,27 @@ public class Delete extends HttpServlet {
         HttpSession sesion = request.getSession();
         Ciclo ciclo = new Ciclo();
         Modulo modulo = new Modulo();
-        if (request.getParameter("opcion").equals("verDelete")){
-            //Significa que el usuario ha seleccionado un servicio para eliminar
-            //servicio = (Servicio) gdao.getOne( servicio ,Integer.parseInt(request.getParameter("servDelete")));
-            //sesion.setAttribute("servicio", servicio);
+        if (request.getParameter("opcion").equals("verDelCiclo")){
+            //Significa que el usuario ha seleccionado un ciclo para eliminar
+            ciclo = (Ciclo) gdao.getById(Integer.parseInt(request.getParameter("cicloSeleccionado")), ciclo.getClass() );
+            sesion.setAttribute("ciclo", ciclo);
             URL = "JSP/Delete/ConfDelete.jsp";
-        }else if (request.getParameter("opcion").equals("doDelete")){
-            //Significa que el usuario ha confirmado el querer borrar a ese profesor
-            //gdao.delete((Servicio) sesion.getAttribute("servicio"));
+        } else if (request.getParameter("opcion").equals("verDelModulo")) {
+            //Significa que el usuario ha seleccionado un modulo para eliminar
+            modulo = (Modulo) gdao.getById(Integer.parseInt(request.getParameter("moduloSeleccionado")), modulo.getClass() );
+            sesion.setAttribute("modulo", modulo);
+            URL = "JSP/Delete/ConfDelete.jsp";
+        } else if (request.getParameter("opcion").equals("doDelete")){
+            //Significa que el usuario ha confirmado el querer borrar ese ciclo o modulo
+            if (sesion.getAttribute("ciclo") != null) {
+                gdao.delete((Ciclo) sesion.getAttribute("ciclo"));
+                sesion.removeAttribute("ciclo");
+            } else if (sesion.getAttribute("modulo") != null) {
+                gdao.delete((Modulo) sesion.getAttribute("modulo"));
+                sesion.removeAttribute("modulo");
+            }
             sesion.removeAttribute("servicio");
             URL = ".";
-        } else if (request.getParameter("opcion").equals("cancelar")){
-            //Significa que el usuario ha cancelado la actualización
-            URL = ".";
-            sesion.removeAttribute("servicio");
         }
 
         request.getRequestDispatcher(URL).forward(request, response);

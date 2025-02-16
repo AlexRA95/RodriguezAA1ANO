@@ -30,14 +30,17 @@ public class FrontController extends HttpServlet {
                 break;
             case "read":
             case "update":
-            case "delete":
+            case "ciclo":
+            case "modulo":
                 ciclos= Utils.convertList(gdao.selectAll(Ciclo.class), Ciclo.class);
                 if (request.getParameter("opcion").equals("update")) {
                     URL = "JSP/Update/VerUpdate.jsp";
-                } else if (request.getParameter("opcion").equals("delete")) {
-                    URL = "JSP/Delete/VerDelete.jsp";
                 }else if (request.getParameter("opcion").equals("read")) {
                     URL = "JSP/Read/VerCiclos.jsp";
+                }else if (request.getParameter("opcion").equals("ciclo")) {
+                    URL = "JSP/Delete/DelCiclo.jsp";
+                }else if (request.getParameter("opcion").equals("modulo")) {
+                    URL = "JSP/Delete/DelModulos.jsp";
                 }
                 if (!ciclos.isEmpty()) {
                     request.setAttribute("ciclos", ciclos);
@@ -45,6 +48,9 @@ public class FrontController extends HttpServlet {
                     request.setAttribute("mensaje", "No hay ciclos actualmente");
                     URL = "JSP/Notify/Mensaje.jsp";
                 }
+                break;
+            case "delete":
+                URL = "JSP/Delete/SelDelete.jsp";
                 break;
             default:
                 URL = ".";

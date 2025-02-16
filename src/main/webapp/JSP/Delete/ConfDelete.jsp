@@ -21,16 +21,29 @@
         <div class="row">
             <form action="${applicationScope.contexto}/Delete" method="post" class="col-12 d-flex justify-content-center flex-column">
                 <div class="card">
-                    <div class="card-header">
-                        Servicio ID: ${sessionScope.servicio.id}
-                    </div>
-                    <div class="card-body">
-                        <h5 class="card-title">Servicio: ${sessionScope.servicio.nombre}</h5>
-                        <p class="card-text">Path del Servicio: ${sessionScope.servicio.path}</p>
-                        <h5 class="card-title">Puerto Asociado</h5>
-                        <p class="card-text">Número de Puerto: ${sessionScope.servicio.puerto.numero}</p>
-                        <p class="card-text">Tipo de Puerto: ${sessionScope.servicio.puerto.tipo}</p>
-                    </div>
+                    <c:choose>
+                        <c:when test="${not empty sessionScope.ciclo}">
+                            <div class="card-header">
+                                Ciclo ID: ${sessionScope.ciclo.idCiclo}
+                            </div>
+                            <div class="card-body">
+                                <h5 class="card-title">Ciclo: ${sessionScope.ciclo.nombre}</h5>
+                                <ul>
+                                    <c:forEach items="${sessionScope.ciclo.modulos}" var="modulo">
+                                        <li>${modulo.denominacion}</li>
+                                    </c:forEach>
+                                </ul>
+                            </div>
+                        </c:when>
+                        <c:when test="${not empty sessionScope.modulo}">
+                            <div class="card-header">
+                                Módulo ID: ${sessionScope.modulo.idModulo}
+                            </div>
+                            <div class="card-body">
+                                <h5 class="card-title">Módulo: ${sessionScope.modulo.denominacion}</h5>
+                            </div>
+                        </c:when>
+                    </c:choose>
                 </div>
                 <button type="submit" name="opcion" value="doDelete" class="btn btn-primary">Borrar</button>
             </form>

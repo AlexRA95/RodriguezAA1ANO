@@ -23,34 +23,28 @@
                 <table class="table table-striped table-hover table-bordered">
                     <thead class="table-dark">
                     <tr>
-                        <th scope="col">Número de Puerto</th>
-                        <th scope="col">Tipo de Puerto</th>
-                        <th scope="col">Nombre del Servicio</th>
-                        <th scope="col">Path del Servicio</th>
                         <th scope="col">Seleccionar</th>
+                        <th scope="col">Ciclo</th>
+                        <th scope="col">Módulos</th>
                     </tr>
                     </thead>
                     <tbody>
-                    <c:choose>
-                        <c:when test="${empty requestScope.servicios}">
-                            <tr>
-                                <td colspan="4" class="text-center">No hay servicios registrados todavía</td>
-                            </tr>
-                        </c:when>
-                        <c:otherwise>
-                            <c:forEach items="${requestScope.servicios}" var="servicio" varStatus="status">
-                                <tr>
-                                    <td>${servicio.puerto.numero}</td>
-                                    <td>${servicio.puerto.tipo}</td>
-                                    <td>${servicio.nombre}</td>
-                                    <td>${servicio.path}</td>
-                                    <td><input class="form-check-input" type="radio" name="servUpdate" value="${servicio.id}" ${status.first ? 'checked' : ''}> </td>
-                                </tr>
-                            </c:forEach>
-                        </c:otherwise>
-                    </c:choose>
+                    <c:forEach items="${requestScope.ciclos}" var="ciclo" varStatus="status">
+                        <tr>
+                            <td>
+                                <input type="radio" name="ciclo" value="${ciclo.idCiclo}" ${status.first ? 'checked' : ''}>
+                            </td>
+                            <td>${ciclo.nombre}</td>
+                            <td>
+                                <c:forEach items="${ciclo.modulos}" var="modulo">
+                                    <p>${modulo.denominacion}</p>
+                                </c:forEach>
+                            </td>
+                        </tr>
+                    </c:forEach>
                     </tbody>
                 </table>
+
                 <button type="submit" name="opcion" value="verUpdate" class="btn btn-primary">Seleccionar</button>
             </form>
         </div>

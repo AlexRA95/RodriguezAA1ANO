@@ -5,7 +5,7 @@
 <html lang="es">
 <head>
     <jsp:include page="../../INC/metas.jsp">
-        <jsp:param name="titulo" value="CRUD - Read" />
+        <jsp:param name="titulo" value="CRUD - Delete" />
     </jsp:include>
 </head>
 <body>
@@ -15,21 +15,25 @@
     <div class="container">
         <div class="row">
             <div class="col-12 text-center">
-                <h1 class="display-1">Ver todos los ciclos y m&oacute;dulos</h1>
+                <h1 class="display-1">Selecciona el ciclo a borrar</h1>
             </div>
         </div>
         <div class="row">
-            <div class="col-12">
+            <form action="${applicationScope.contexto}/Delete" method="post" class="col-12 d-flex justify-content-center flex-column">
                 <table class="table table-striped table-hover table-bordered">
                     <thead class="table-dark">
                     <tr>
+                        <th scope="col">Seleccionar</th>
                         <th scope="col">Ciclo</th>
                         <th scope="col">Módulos</th>
                     </tr>
                     </thead>
                     <tbody>
-                    <c:forEach items="${requestScope.ciclos}" var="ciclo">
+                    <c:forEach items="${requestScope.ciclos}" var="ciclo" varStatus="status">
                         <tr>
+                            <td>
+                                <input type="radio" name="cicloSeleccionado" value="${ciclo.idCiclo}" ${status.first ? 'checked' : ''}>
+                            </td>
                             <td>${ciclo.nombre}</td>
                             <td>
                                 <c:forEach items="${ciclo.modulos}" var="modulo">
@@ -41,7 +45,8 @@
                     </tbody>
                 </table>
 
-            </div>
+                <button type="submit" name="opcion" value="verDelCiclo" class="btn btn-primary">Seleccionar</button>
+            </form>
         </div>
     </div>
 </main>
